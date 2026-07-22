@@ -1,202 +1,174 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>UGC Studio BR</title>
-
-<style>
-*{
-    margin:0;
-    padding:0;
-    box-sizing:border-box;
-    font-family:Arial,Helvetica,sans-serif;
-}
-
-body{
-    background:#0f172a;
-    color:#fff;
-}
-
-header{
-    width:100%;
-    padding:20px 8%;
-    display:flex;
-    justify-content:space-between;
-    align-items:center;
-}
-
-.logo{
-    font-size:30px;
-    font-weight:bold;
-}
-
-.logo span{
-    color:#ff0050;
-}
-
-nav a{
-    color:white;
-    text-decoration:none;
-    margin-left:25px;
-}
-
-.hero{
-    width:100%;
-    min-height:80vh;
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    flex-direction:column;
-    text-align:center;
-    padding:20px;
-}
-
-.hero h1{
-    font-size:58px;
-    margin-bottom:20px;
-}
-
-.hero p{
-    font-size:20px;
-    max-width:750px;
-    line-height:1.7;
-    opacity:.9;
-}
-
-.buttons{
-    margin-top:40px;
-}
-
-.btn{
-    display:inline-block;
-    padding:16px 30px;
-    margin:10px;
-    border-radius:12px;
-    text-decoration:none;
-    font-weight:bold;
-}
-
-.primary{
-    background:#ff0050;
-    color:white;
-}
-
-.secondary{
-    background:white;
-    color:#111;
-}
-
-.features{
-    padding:80px 8%;
-    display:grid;
-    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-    gap:25px;
-}
-
-.card{
-    background:#1e293b;
-    padding:30px;
-    border-radius:16px;
-}
-
-.card h3{
-    margin-bottom:15px;
-}
-
-footer{
-    text-align:center;
-    padding:40px;
-    border-top:1px solid rgba(255,255,255,.08);
-    margin-top:60px;
-}
-
-footer a{
-    color:#ff0050;
-    text-decoration:none;
-}
-</style>
-
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>UGC Studio BR</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 
 <body>
 
-<header>
+<div class="container">
 
-<div class="logo">
-UGC <span>Studio BR</span>
-</div>
+    <!-- Tela inicial -->
+    <div id="home" class="card">
 
-<nav>
-<a href="/">Home</a>
-<a href="/privacy">Privacidade</a>
-<a href="/terms">Termos</a>
-</nav>
+        <div class="logo">
+            UGC Studio BR
+        </div>
 
-</header>
+        <h1>
+            Gerencie seus vídeos do TikTok
+        </h1>
 
-<section class="hero">
+        <p>
+            Crie, organize e publique seus conteúdos UGC em um único lugar.
+        </p>
 
-<h1>UGC Studio BR</h1>
+        <button onclick="loginTikTok()">
+            Entrar com TikTok
+        </button>
 
-<p>
-Plataforma para gerenciamento de conteúdo UGC com integração oficial ao TikTok.
-Os usuários podem autenticar suas contas, enviar vídeos e gerenciar publicações utilizando a API oficial do TikTok for Developers.
+    </div>
+
+
+    <!-- Tela conectando -->
+    <div id="loading" class="card hidden">
+
+        <div class="spinner"></div>
+
+        <h2>
+            Conectando ao TikTok...
+        </h2>
+
+        <p>
+            Aguarde enquanto verificamos sua conta.
+        </p>
+
+    </div>
+
+
+    <!-- Conta conectada -->
+    <div id="connected" class="card hidden">
+
+        <div class="success">
+            ✔
+        </div>
+
+        <h2>
+            Conta conectada
+        </h2>
+
+        <div class="profile">
+
+            <div class="avatar">
+                U
+            </div>
+
+            <strong>
+                @ugcstudio_demo
+            </strong>
+
+            <span>
+                🟢 Conectado
+            </span>
+
+        </div>
+
+
+        <button onclick="openDashboard()">
+            Continuar
+        </button>
+
+    </div>
+
+
+    <!-- Dashboard -->
+    <div id="dashboard" class="card hidden">
+
+        <div class="logo">
+            UGC Studio BR
+        </div>
+
+
+        <h2>
+            Dashboard
+        </h2>
+
+
+        <div class="box">
+
+            <strong>
+                Usuário
+            </strong>
+
+            <p>
+                @ugcstudio_demo
+            </p>
+
+
+            <strong>
+                Status
+            </strong>
+
+            <p class="online">
+                🟢 Conta conectada
+            </p>
+
+        </div>
+
+
+        <input
+type="file"
+id="videoInput"
+accept="video/*"
+style="display:none"
+onchange="videoSelecionado()">
+
+<button onclick="abrirVideo()">
+    Selecionar vídeo
+</button>
+
+<p id="videoNome" style="margin-top:15px;color:#00f2ea;">
+Nenhum vídeo selecionado
 </p>
 
-<div class="buttons">
+<button onclick="publishVideo()">
+    Publicar no TikTok
+</button>
 
-<a class="btn primary" href="#">
-Entrar com TikTok
-</a>
 
-<a class="btn secondary" href="#">
-Enviar Vídeo
-</a>
+    </div>
+
+
+    <!-- Publicando -->
+    <div id="publishing" class="card hidden">
+
+        <h2>
+            Enviando vídeo...
+        </h2>
+
+
+        <div class="progress">
+
+            <div id="bar"></div>
+
+        </div>
+
+
+        <p id="status">
+            Preparando envio...
+        </p>
+
+
+    </div>
+
 
 </div>
 
-</section>
 
-<section class="features">
-
-<div class="card">
-<h3>Login Seguro</h3>
-<p>
-Autenticação utilizando o Login Kit oficial do TikTok.
-</p>
-</div>
-
-<div class="card">
-<h3>Upload de Vídeos</h3>
-<p>
-Publicação de vídeos diretamente na conta do usuário através da Content Posting API.
-</p>
-</div>
-
-<div class="card">
-<h3>Gerenciamento</h3>
-<p>
-Controle centralizado dos conteúdos enviados para o TikTok.
-</p>
-</div>
-
-</section>
-
-<footer>
-
-<p>
-© 2026 UGC Studio BR
-</p>
-
-<br>
-
-<a href="/privacy">Política de Privacidade</a>
-&nbsp;•&nbsp;
-<a href="/terms">Termos de Serviço</a>
-
-</footer>
+<script src="script.js"></script>
 
 </body>
 </html>
